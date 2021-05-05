@@ -36,13 +36,13 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Captbrogers\\TesseractOcr\\Tests\\": "tests"
+      "Captbrogers\\TesseractOcrTests\\": "tests"
     }
   },
   "scripts": {
     "psalm": "vendor/bin/psalm",
-    "test": "./vendor/bin/testbench package:test --parallel --no-coverage",
-    "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    "test": "vendor/bin/testbench package:test --parallel --no-coverage",
+    "test-coverage": "vendor/bin/phpunit --coverage-html coverage tests"
   },
   "config": {
     "sort-packages": true
