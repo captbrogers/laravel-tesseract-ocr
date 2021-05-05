@@ -1,0 +1,23 @@
+### Project Specific
+# Files
+
+
+# Directories
+/node_modules
+/vendor
+
+### Editor Specific
+# Files
+laravel-tesseract-ocr.sublime-project
+laravel-tesseract-ocr.sublime-workspace
+
+# Directories
+
+
+### System Specific
+# Files
+.DS_Store
+Thumbs.db
+
+# Directories
+__MACOSX
