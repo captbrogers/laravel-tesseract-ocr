@@ -33,8 +33,10 @@ return [
 ## Usage
 
 ```php
-$laravel-tesseract-ocr = new Captbrogers\TesseractOcr();
-echo $laravel-tesseract-ocr->echoPhrase('Greetings, Program!');
+$tesseract = new Captbrogers\TesseractOcr();
+$tesseract->lang('deu')
+    ->dpi(300)
+    ->run();
 ```
 
 ## Testing

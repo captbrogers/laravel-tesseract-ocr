@@ -2,7 +2,9 @@
 
 namespace Captbrogers\TesseractOcr;
 
-class TesseractOcrServiceProvider
+use Illuminate\Support\ServiceProvider;
+
+class TesseractOcrServiceProvider extends ServiceProvider
 {
     /**
      * .
@@ -11,6 +13,8 @@ class TesseractOcrServiceProvider
      */
     public function boot(): void
     {
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'tesseract-ocr');
+
         $this->publishes([
             __DIR__.'/../config/tesseract-ocr.php' => config_path('tesseract-ocr.php'),
         ]);
