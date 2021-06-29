@@ -7,11 +7,11 @@
 
 I would first like to thank thiagoalessio for his work on the [Tesseract OCR for PHP package](https://github.com/thiagoalessio/tesseract-ocr-for-php). I leaned heavily on that code to make this.
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+One of the main differences between this package and thiagoalessio's is that this package does not have compatibility for PHP prior to version 7.3. This package has exceptions thrown in the event that certain required PHP functions are not available. Those functions being `exec`, `proc_open`, `prog_get_status`, `proc_close`, `file_get_contents`, `file_exists`, `fread`, `fwrite`, `fclose`, `stream_set_blocking`. Some hosting providers or server configurations may have them disabled for security reasons and in those cases you should be informed of why an image scan failed.
 
 ## Installation
 
-You can install the package via composer:
+You can install this package via composer:
 
 ```bash
 composer require captbrogers/laravel-tesseract-ocr

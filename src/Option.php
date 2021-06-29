@@ -27,7 +27,7 @@ class Option
     /**
      * Inform Tesseract what DPI to expect for the image.
      *
-     * @param string|null $lang
+     * @param string|int|null $lang
      *
      * @return string
      */
@@ -40,63 +40,119 @@ class Option
         return "--dpi $dpi";
     }
 
-    public static function psm($psm)
+    /**
+     * .
+     *
+     * @param string $psm
+     *
+     * @return string
+     */
+    public static function psm(string $psm): string
     {
-        return function($version) use ($psm) {
+        return function ($version) use ($psm) {
             $version = preg_replace('/^v/', '', $version);
             return (version_compare($version, 4, '>=') ? '-' : '')."-psm $psm";
         };
     }
 
-    public static function oem($oem)
+    /**
+     * .
+     *
+     * @param string $oem
+     *
+     * @return string
+     */
+    public static function oem(string $oem): string
     {
-        return function($version) use ($oem) {
+        return function ($version) use ($oem) {
             Option::checkMinVersion('3.05', $version, 'oem');
             return "--oem $oem";
         };
     }
 
-    public static function userWords($path)
+    /**
+     * .
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function userWords(string $path): string
     {
-        return function($version) use ($path) {
+        return function ($version) use ($path) {
             Option::checkMinVersion('3.04', $version, 'user-words');
             return '--user-words "'.addcslashes($path, '\\"').'"';
         };
     }
 
-    public static function userPatterns($path)
+    /**
+     * .
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function userPatterns(string $path): string
     {
-        return function($version) use ($path) {
+        return function ($version) use ($path) {
             Option::checkMinVersion('3.04', $version, 'user-patterns');
             return '--user-patterns "'.addcslashes($path, '\\"').'"';
         };
     }
 
-    public static function tessdataDir($path)
+    /**
+     * .
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function tessdataDir(string $path): string
     {
-        return function() use ($path) {
+        return function () use ($path) {
             return '--tessdata-dir "'.addcslashes($path, '\\"').'"';
         };
     }
 
-    public static function config($var, $value)
+    /**
+     * .
+     *
+     * @param string $keyname
+     * @param string|int|null $value
+     *
+     * @return string
+     */
+    public static function config(string $keyname, $value): string
     {
-        return function() use($var, $value) {
-            $snakeCase = function($str) {
-                return strtolower(preg_replace('/([A-Z])+/', '_$1', $str));
-            };
-            $pair = $snakeCase($var).'='.$value;
+        return function () use ($keyname, $value) {
+            $snakeCaseKeyname = strtolower(preg_replace('/([A-Z])+/', '_$1', $keyname));
+            $pair = $snakeCaseKeyname . '=' . $value;
             return '-c "'.addcslashes($pair, '\\"').'"';
         };
     }
 
-    public static function checkMinVersion($minVersion, $currVersion, $option)
+    /**
+     * .
+     *
+     * @throws Exception
+     *
+     * @param string $minimumVersion
+     * @param string $currentVersion
+     * @param string|int|null $option
+     *
+     * @return bool|null
+     */
+    public static function checkMinVersion(string $minimumVersion, string $currentVersion, $option): ?bool
     {
-        $minVersion = preg_replace('/^v/', '', $minVersion);
-        $currVersion = preg_replace('/^v/', '', $currVersion);
-        if (!version_compare($currVersion, $minVersion, '<')) return;
-        $msg = "$option option is only available on Tesseract $minVersion or later.";
-        $msg.= PHP_EOL."Your version of Tesseract is $currVersion";
-        throw new \Exception($msg);
+        $minimumVersion = preg_replace('/^v/', '', $minimumVersion);
+        $currentVersion = preg_replace('/^v/', '', $currentVersion);
+
+        if (! version_compare($currentVersion, $minimumVersion, '<')) {
+            return;
+        }
+
+        $message = "$option option is only available on Tesseract $minimumVersion or later.";
+        $message.= PHP_EOL."Your version of Tesseract is $currentVersion";
+        throw new \Exception($message);
     }
 }
